@@ -25,7 +25,7 @@ const product = JSON.parse(localStorage.getItem("products")) || [];
 
 const renderProduct = () => {
   let tbodyHTML = ``;
-  products.forEach((element) => {
+  product.forEach((element, index) => {
     tbodyHTML += `
     <tr id="row-SPJ806NEC">
         <td>${element.id}</td>
@@ -35,7 +35,7 @@ const renderProduct = () => {
         <td>
         <div class="td-actions">
         <button class="btn btn-sm btn-edit">✏ Sửa</button>
-        <button class="btn btn-sm btn-del">✕ Xóa</button>
+        <button onclick="handleDelete(${index})" class="btn btn-sm btn-del">✕ Xóa</button>
         </div>
         </td>
     </tr>
@@ -85,5 +85,16 @@ formElement.addEventListener("submit", (event) => {
 
   formElement.reset();
 });
+
+const handleDelete = (index) => {
+  const isConfirm = confirm("Bạn có muốn xóa sản phẩm này không?");
+  if (isConfirm) {
+    product.splice(index, 1);
+
+    localStorage.setItem("products", JSON.stringify(products));
+
+    renderProduct();
+  }
+};
 
 renderProduct();
