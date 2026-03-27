@@ -87,11 +87,13 @@ formElement.addEventListener("submit", (event) => {
     product.unshift(newProduct);
   }
 
-  localStorage.setItem("products", JSON.stringify(products));
+  localStorage.setItem("products", JSON.stringify(product));
 
   renderProduct();
 
   formElement.reset();
+
+  indexEdit = null;
 
   btnSubmitElement.textContent = "Thêm sản phẩm";
 });
@@ -101,15 +103,13 @@ const handleDelete = (index) => {
   if (isConfirm) {
     product.splice(index, 1);
 
-    localStorage.setItem("products", JSON.stringify(products));
+    localStorage.setItem("products", JSON.stringify(product));
 
     renderProduct();
   }
 };
 
 const handleEdit = (index) => {
-  //   formElement.style.display = "block";
-
   iNameElement.value = product[index].name;
   iNameElement.value = product[index].price;
   iStockElement.vaule = product[index].quantity;
