@@ -7,9 +7,27 @@ const products = [
   },
   {
     id: 2,
-    name: "Laptop Dell XPS 12",
+    name: "Bàn phím Keychron K2",
     price: 10000000,
-    quantity: 3,
+    quantity: 34,
+  },
+  {
+    id: 3,
+    name: "Chuột Logitech MX Master",
+    price: 1850000,
+    quantity: 7,
+  },
+  {
+    id: 4,
+    name: "Áo thun Basic Uniqlo",
+    price: 390000,
+    quantity: 32,
+  },
+  {
+    id: 5,
+    name: "Cà phê rang xay 500g",
+    price: 185000,
+    quantity: 58,
   },
 ];
 
@@ -20,6 +38,7 @@ const iNameElement = document.querySelector("#iName");
 const iPriceElement = document.querySelector("#iPrice");
 const iStockElement = document.querySelector("#iStock");
 const inputSearchElement = document.querySelector("#input-search");
+const sortSelectElement = document.querySelector("#sortSelect");
 
 localStorage.setItem("products", JSON.stringify(products));
 const product = JSON.parse(localStorage.getItem("products")) || [];
@@ -51,7 +70,7 @@ formElement.addEventListener("submit", (event) => {
   event.preventDefault();
 
   if (!iNameElement.value) {
-    alert("Họ và tên không đúng!");
+    alert("Tên sản phầm không được để rỗng!");
     return;
   }
   if (!iPriceElement.value) {
@@ -91,12 +110,21 @@ formElement.addEventListener("submit", (event) => {
 
   renderProduct();
 
-  formElement.reset();
+  resetForm();
 
   indexEdit = null;
 
   btnSubmitElement.textContent = "Thêm sản phẩm";
 });
+
+const resetForm = () => {
+  iNameElement.value = "";
+  iPriceElement.value = "";
+  iStockElement.value = "";
+
+  indexEdit = null;
+  btnSubmitElement.textContent = "Thêm sản phẩm";
+};
 
 const handleDelete = (index) => {
   const isConfirm = confirm("Bạn có muốn xóa sản phẩm này không?");
@@ -111,8 +139,8 @@ const handleDelete = (index) => {
 
 const handleEdit = (index) => {
   iNameElement.value = product[index].name;
-  iNameElement.value = product[index].price;
-  iStockElement.vaule = product[index].quantity;
+  iPriceElement.value = product[index].price;
+  iStockElement.value = product[index].quantity;
 
   btnSubmitElement.textContent = "Cập nhật";
 
