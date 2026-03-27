@@ -81,7 +81,7 @@ formElement.addEventListener("submit", (event) => {
     quantity: iStockElement.value,
   };
 
-  if (indexEdit || indexEdit === 0) {
+  if (indexEdit !== null) {
     product[indexEdit] = newProduct;
   } else {
     product.unshift(newProduct);
@@ -111,10 +111,8 @@ const handleEdit = (index) => {
   //   formElement.style.display = "block";
 
   iNameElement.value = product[index].name;
-  dateElement.value = product[index].date;
-  emailElement.value = product[index].email;
   iNameElement.value = product[index].price;
-  statusSelect.value = product[index].status;
+  iStockElement.vaule = product[index].quantity;
 
   btnSubmitElement.textContent = "Cập nhật";
 
