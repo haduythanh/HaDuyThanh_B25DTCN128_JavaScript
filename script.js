@@ -19,9 +19,12 @@ const btnSubmitElement = document.querySelector("#btnSubmit");
 const iNameElement = document.querySelector("#iName");
 const iPriceElement = document.querySelector("#iPrice");
 const iStockElement = document.querySelector("#iStock");
+const inputSearchElement = document.querySelector("#input-search");
 
 localStorage.setItem("products", JSON.stringify(products));
 const product = JSON.parse(localStorage.getItem("products")) || [];
+
+let indexEdit = null;
 
 const renderProduct = () => {
   let tbodyHTML = ``;
@@ -34,7 +37,7 @@ const renderProduct = () => {
         <td class="center" style="font-weight: 700">${element.quantity}</td>
         <td>
         <div class="td-actions">
-        <button class="btn btn-sm btn-edit">✏ Sửa</button>
+        <button onclick="handleEdit(${index})" class="btn btn-sm btn-edit">✏ Sửa</button>
         <button onclick="handleDelete(${index})" class="btn btn-sm btn-del">✕ Xóa</button>
         </div>
         </td>
@@ -71,19 +74,26 @@ formElement.addEventListener("submit", (event) => {
   }
 
   const newProduct = {
-    id: products.length + 1,
+    id:
+      indexEdit || indexEdit === 0 ? product[indexEdit].id : product.length + 1,
     name: iNameElement.value,
     price: iPriceElement.value,
     quantity: iStockElement.value,
   };
 
-  products.unshift(newProduct);
+  if (indexEdit || indexEdit === 0) {
+    product[indexEdit] = newProduct;
+  } else {
+    product.unshift(newProduct);
+  }
 
   localStorage.setItem("products", JSON.stringify(products));
 
   renderProduct();
 
   formElement.reset();
+
+  btnSubmitElement.textContent = "Thêm sản phẩm";
 });
 
 const handleDelete = (index) => {
@@ -96,5 +106,25 @@ const handleDelete = (index) => {
     renderProduct();
   }
 };
+
+const handleEdit = (index) => {
+  //   formElement.style.display = "block";
+
+  iNameElement.value = product[index].name;
+  dateElement.value = product[index].date;
+  emailElement.value = product[index].email;
+  iNameElement.value = product[index].price;
+  statusSelect.value = product[index].status;
+
+  btnSubmitElement.textContent = "Cập nhật";
+
+  indexEdit = index;
+};
+
+btnSubmitElement.addEventListener("submit", (event) => {
+  product.filter((element) => {
+    return element.name.toLowerCase().include(event.target.value);
+  });
+});
 
 renderProduct();
